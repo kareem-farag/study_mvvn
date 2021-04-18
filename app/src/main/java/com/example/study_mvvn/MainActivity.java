@@ -11,14 +11,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements QuizView {
     QuizViewModel quizViewModel = new QuizViewModel() ;
+    QuizPresenter quizPresenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button button = findViewById(R.id.button);
-        TextView textView=findViewById(R.id.text_view);
+
+        quizPresenter = new QuizPresenter(this);
+
         /*QuizViewModel quizViewModel = ViewModelProviders.of(this).get(QuizViewModel.class);
         quizViewModel.getQuizMutableLiveData().observe(this, new Observer<Quiz>() {
             @Override
@@ -31,8 +34,14 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-             //   textView.setText(quizViewModel.getQuizMutableLiveData());
+                quizPresenter.getName();
             }
         });
+    }
+
+    @Override
+    public void onGetQuizName(String quizName) {
+        TextView textView=findViewById(R.id.text_view);
+        textView.setText(quizName);
     }
 }
